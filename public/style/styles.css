@@ -1,0 +1,36 @@
+mtable {
+    display: inline-table;
+    math-style: compact;
+}
+
+mtr {
+    display: table-row;
+}
+
+mtd {
+    display: table-cell;
+    /* Centering inside table cells should rely on box alignment properties.
+       See https://github.com/w3c/mathml-core/issues/156 */
+    text-align: center;
+    padding: 0.5ex 0.4em;
+}
+
+.mine, input{
+    display: none;
+}
+
+.box {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    line-height: 50px;
+    cursor: pointer;
+    background-color: aquamarine;
+    color: aquamarine;
+  }
+  .pressed{
+    background-color: gold !important;
+    color: gray;
+  }

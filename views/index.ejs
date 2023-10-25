@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <!-- Stylesheet relative to public folder -->
+    <link rel="stylesheet" href="style/styles.css"/>
+</head>
+<body>
+    <h1>Minesweeper</h1>
+    <% if (locals.res){ %>
+        <% var res = JSON.parse (res) %>
+        <h2>Total mines :  <%= res.mines %></h2>
+        
+        <% console.log(res.board , res.mines) %>
+                        
+        <% for (var i=0; i <res.height ; i++){ %>
+            <% for (var j=0; j<res.width ; j++) {%>
+                <div type ="button" class = "box" id =<%= i*10 + j  %>><%= res.board[i][j] %></div>
+            <% } %>
+            <br>
+        <% } %>
+   <% } %>
+   
+    <!-- jquery and javascript  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        //console.log(res)
+        $(".box").on("click",function(event){
+            console.log(this.id);
+            $("#"+this.id).addClass("pressed");
+            console.log("doney");
+            console.log(event.button);
+        });
+    </script>
+</body>
+</html>
