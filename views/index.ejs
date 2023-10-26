@@ -9,57 +9,83 @@
 </head>
 <body>
     <h1>Minesweeper</h1>
-    <% if (locals.res){ %>
+
+    <% if (locals.res){ %>   <!--if result is available-->
         <% var res = JSON.parse (res) %>
-        <h2>Total mines :  <%= res.mines %></h2>
+        <h2>Total mines : <span class = "totalMines"><%= res.mines %></span> </h2>  <!--Total number of mines -->
         
         <% console.log(res.board , res.mines) %>
                         
+        <!-- Making minesweeper grid -->
+        <!----------------------------->
         <% for (var i=0; i <res.height ; i++){ %>
             <% for (var j=0; j<res.width ; j++) {%>
                 <div type ="button" class = "box" id =<%= i*10 + j %> oncontextmenu="event.preventDefault();" >
                     <%= res.board[i][j] %>
                 </div>
             <% } %>
-            <br>
+            <br>  <!-- Next row -->
         <% } %>
    <% } %>
    
-    <!-- jquery -->
+
+    <!--      jquery          -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-    <!--Javascript -->
+    <!--      Javascript      -->
+    <!-------------------------->
     <script type="text/javascript" charset="utf-8">
-
-        let flag = 0; // flag to check if the box is flagged or not (right click)
-
-        // eventhandler to capture the type of click in each box
+        var totalMines = Number ($(".totalMines").html());  
+        console.log(totalMines);
+ 
+        // Function to change the style of the cell according to the content of the cell
+        //-------------------------------------------------------------------------------
+        function valueCheck(value, id){
+            console.log(`Inside valueCheck ${value} , ${id}`);
+            if (value == "o"){
+                console.log(`Inside case ${value} , o`);
+                $("#"+id).addClass("clear");
+                return 0;
+            }else if(value == "x"){
+                console.log(`Inside case ${value} , x`);
+                $("#"+id).addClass("mineCell");
+                return 1;
+            }else{
+                $("#"+id).addClass("number");
+                return 0;
+            }
+        }
+        
+        // Eventhandler to capture the type of click in each box
+        //------------------------------------------------------
         $(".box").on("mouseup",function(event){
+            let value = this.innerHTML.trim();
+            let id = this.id;
             
-            console.log(this, this.innerHTML);
-            console.log(event.button);
-           
+            console.log(`value : ${value} , button : ${event.button} , classList : ${this.classList}` );
+            console.log(this.classList.contains("flag"));
+            
             switch(event.button){
                 case 0:
-                    if (flag == 0){                           // display number only when the box is not flagged
+                    // display number only when the box is not flagged
+                    if (!this.classList.contains("flag")){  
+                        valueCheck(value ,id );    
                         $("#"+this.id).addClass("pressed");
                     }
                     break;
                 case 2:
                     console.log("inside 2");
-                    console.log(flag);
-                    if (flag == 0){                            // if box is not already flagged add flag
-                        $("#"+this.id).addClass("flag");     
-                        flag = 1;
-                    }else{
-                        $("#"+this.id).removeClass("flag");   // if the box is already flagged remove the flag
-                        flag = 0;
+                    
+                    if (this.classList.contains("flag")){      // if box is not already flagged add flag
+                        $("#"+this.id).removeClass("flag");   
+                        
+                    }else if(!this.classList.contains("pressed")){
+                        $("#"+this.id).addClass("flag");       // if the box is already flagged remove the flag
+                       
                     }
                     break;
             }
         });
-
-
     </script>
 </body>
 </html>

@@ -14,11 +14,11 @@ mtd {
     text-align: center;
     padding: 0.5ex 0.4em;
 }
-
+/*
 .mine, input{
     display: none;
 }
-
+*/
 .box {
     display: inline-block;
     width: 50px;
@@ -34,11 +34,25 @@ mtd {
   }
 
   .pressed{
-    background-color: gold ;
+    background-color: whitesmoke ;
     color: gray;
   }
 
   .flag{
     background-image: url("flag.png");
     background-size: 50px 50px;
+    transform: scale(.75, 0.75);
+
+  }
+  .clear{
+    background-color: whitesmoke;
+    color: transparent; /* make the text invisible  */
+    user-select: none; /* prevent selection of the text */
+  }
+  .mineCell{
+    color: transparent;
+    background-color: red;
+    background-image: url("mine.png");
+    background-size: 50px 50px;
+    align-items: center;
   }
