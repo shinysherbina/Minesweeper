@@ -28,9 +28,17 @@ mtd {
     line-height: 50px;
     cursor: pointer;
     background-color: aquamarine;
-    color: aquamarine;
+    color: transparent; /* make the text invisible  */
+    user-select: none; /* prevent selection of the text */
+
   }
+
   .pressed{
-    background-color: gold !important;
+    background-color: gold ;
     color: gray;
+  }
+
+  .flag{
+    background-image: url("flag.png");
+    background-size: 50px 50px;
   }
