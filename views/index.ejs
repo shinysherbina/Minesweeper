@@ -12,7 +12,7 @@
 
     <% if (locals.res){ %>   <!--if result is available-->
         <% var res = JSON.parse (res) %>
-        <h2>Total mines : <span class = "totalMines"><%= res.mines %></span> </h2>  <!--Total number of mines -->
+        <h2><img src="images/mine.png"> : <span class = "totalMines"><%= res.mines %></span> </h2>  <!--Total number of mines -->
         
         <% console.log(res.board , res.mines) %>
                         
@@ -36,22 +36,29 @@
     <!-------------------------->
     <script type="text/javascript" charset="utf-8">
         var totalMines = Number ($(".totalMines").html());  
+        var colours =["blue","green","red","orange","violet","indigo","pink","yellow"];
         console.log(totalMines);
  
         // Function to change the style of the cell according to the content of the cell
         //-------------------------------------------------------------------------------
         function valueCheck(value, id){
             console.log(`Inside valueCheck ${value} , ${id}`);
-            if (value == "o"){
+
+            if (value == "o"){       // no mines nearby
                 console.log(`Inside case ${value} , o`);
                 $("#"+id).addClass("clear");
                 return 0;
-            }else if(value == "x"){
+            }else if(value == "x"){  // mine
                 console.log(`Inside case ${value} , x`);
                 $("#"+id).addClass("mineCell");
                 return 1;
-            }else{
+            }else{   // any number
+                let numColor = colours[Number(value)-1];
+                console.log(`Inside number numColor : ${numColor} , id : ${Number(id)-1}`);
                 $("#"+id).addClass("number");
+                $("#"+id).addClass(numColor);
+                
+
                 return 0;
             }
         }

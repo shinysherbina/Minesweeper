@@ -35,14 +35,12 @@ mtd {
 
   .pressed{
     background-color: whitesmoke ;
-    color: gray;
+   /* color: gray; */
   }
 
   .flag{
-    background-image: url("flag.png");
+    background-image: url("../images/flag.png");
     background-size: 50px 50px;
-    transform: scale(.75, 0.75);
-
   }
   .clear{
     background-color: whitesmoke;
@@ -52,7 +50,31 @@ mtd {
   .mineCell{
     color: transparent;
     background-color: red;
-    background-image: url("mine.png");
+    background-image: url("../images/mine.png");
     background-size: 50px 50px;
     align-items: center;
+  }
+  .blue{
+    color:blue;
+  }
+  .green{
+    color:green;
+  }
+  .red{
+    color:red;
+  }
+  .yellow{
+    color:yellow;
+  }
+  .orange{
+    color:orange;
+  }
+  .violet{
+    color:violet;
+  }
+  .indigo{
+    color:indigo;
+  }
+  .pink{
+    color:pink;
   }
