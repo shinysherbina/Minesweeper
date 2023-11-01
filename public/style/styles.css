@@ -1,24 +1,21 @@
-mtable {
-    display: inline-table;
-    math-style: compact;
+body{
+  background-color: #252B48;
 }
-
-mtr {
-    display: table-row;
+.heading{
+  background-color: #445069!important;
 }
-
-mtd {
-    display: table-cell;
-    /* Centering inside table cells should rely on box alignment properties.
-       See https://github.com/w3c/mathml-core/issues/156 */
-    text-align: center;
-    padding: 0.5ex 0.4em;
+.container{
+  display : flex;
+  height : 100vh;
+  flex-direction: column;
+  align-items: center;
 }
-/*
-.mine, input{
-    display: none;
+.mineField{
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
+  align-content: center;
 }
-*/
 .box {
     display: inline-block;
     width: 50px;
@@ -27,12 +24,25 @@ mtd {
     border: 1px solid #ddd;
     line-height: 50px;
     cursor: pointer;
-    background-color: aquamarine;
+    background-color: #5B9A8B;
     color: transparent; /* make the text invisible  */
     user-select: none; /* prevent selection of the text */
+    border-radius: 10%;
+    margin-bottom: 3px;
 
   }
-
+  h1{
+    color: antiquewhite;
+    font-size: 3rem;
+    font-family: 'Cinzel', serif;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0px 10px 0px;
+  }
+  h2{
+    margin-right: auto;
+    color: antiquewhite;
+  }
   .pressed{
     background-color: whitesmoke ;
    /* color: gray; */
@@ -41,11 +51,7 @@ mtd {
   .flag{
     background-image: url("../images/flag.png");
     background-size: 50px 50px;
-  }
-  .clear{
-    background-color: whitesmoke;
-    color: transparent; /* make the text invisible  */
-    user-select: none; /* prevent selection of the text */
+    background-color: #F7E987;
   }
   .mineCell{
     color: transparent;
