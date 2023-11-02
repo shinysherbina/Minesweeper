@@ -26,22 +26,22 @@
         <% if (locals.res){ %>   <!--if result is available-->
             <% var res = JSON.parse (res) %>
             <h2>Mines<img src="images/mine.png"> : <span class = "totalMines"><%= res.mines %></span> </h2>  <!--Total number of mines -->
-            
-            <% console.log(res.board , res.mines) %>
-                            
+                                      
             <!-- Making minesweeper grid -->
             <!----------------------------->
-            <div class ="mineField">
+            <div class ="mine-field">
             <% for (var i=0; i <res.height ; i++){ %>   
                 <% for (var j=0; j<res.width ; j++) {%>
-                    <div type ="button" class = "box " id =<%= i*10 + j %> oncontextmenu="event.preventDefault();" >
+                    <div type ="button" class = "box " id = <%= "i"+i +"j"+j %> oncontextmenu="event.preventDefault();" >
                         <%= res.board[i][j] %>
                     </div>
                 <% } %>
                 <br>  <!-- Next row -->
             <% } %>   
             </div>
+
         <% } %>   <!--end if result is available-->
+
     </div>
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -54,7 +54,6 @@
     <script type="text/javascript" charset="utf-8">
         var totalMines = Number ($(".totalMines").html());  
         var colours =["blue","green","red","orange","violet","indigo","pink","yellow"];
-
         var clickSound = new Audio("audio/click.wav");
         var gameOverSound = new Audio("audio/gameOver.wav");
         var flagSound = new Audio("audio/flag.wav");
@@ -64,23 +63,51 @@
  
         // Function to change the style of the cell according to the content of the cell
         //-------------------------------------------------------------------------------
-        function valueCheck(value, id){
-            // value : value inside a cell ; id : unique id of the cell
-            console.log(`Inside valueCheck ${value} , ${id}`);
+        async function valueCheck(value, id){
+            // value : value inside a cell . id : unique id of the cell in the format "i<num>j<num>".
+            
+            console.log("----------------------------");
+            console.log(`VALUECHECK ${value} , ${id}`);
+            $("#"+id).addClass("pressed");
 
             if(value == "x"){  // mine
-                console.log(`Inside case ${value} , x`);
                 gameOverSound.play();
                 bombSound.play();
-                $("#"+id).addClass("mineCell");
+
+                $("#"+id).addClass("mine-cell");
+                $("body").addClass("game-over");
                 $("h1").text("Mine hit. Game Over");
                 return 1;
-            }else{   // any number
-                let numColor = colours[Number(value)-1];
-                console.log(`Inside number numColor : ${numColor} , id : ${Number(id)-1}`);
-                $("#"+id).addClass("number");
-                $("#"+id).addClass(numColor);
+            }else if(value == "o"){  //empty cell
+                jIndex =id.indexOf("j");
+                let i = Number(id.substring(1, jIndex)) ; // as the first element is "i" in id, started from 1
+                let j = Number(id.substring(jIndex+1)) ;
+                console.log(`Inside empty cell check. jIndex : ${jIndex} , i :${i} , j : ${j}`);
+                // code to open the surrounding cells when an empty cell is clicked
+                for(var y= j-1; y<=j+1; y++){
+                    for(var x= i-1; x<=i+1; x++){
+                        var surroundId = `i${x}j${y}`;
+                        if (x>=0 && y>=0 && surroundId != id){
+                            var cellValue = $("#"+surroundId).text().trim();
+                            var isPressed = $("#"+surroundId).hasClass("pressed");
+                            var isFlagged = $("#"+surroundId).hasClass("flag");
+                            
+                            if (cellValue != "x" && !isPressed && !isFlagged){
+                                console.log(`Inside surroundId : ${surroundId}, content : ${cellValue} `);
+                                await valueCheck(cellValue,surroundId);
+                            }
+                        }
+                    }
+                }
                 return 0;
+               }else{   // any number
+                if(!$("#"+id).hasClass("flag")){ // if not flagged
+                    let numColor = colours[Number(value)-1]; // as "value" always starts from 1, to get the value from the array subtracted 1
+                    console.log(`Inside number numColor : ${numColor} , id : ${id}`);
+                    $("#"+id).addClass("number");
+                    $("#"+id).addClass(numColor);
+                    return 0;
+                }
             }
         }
         
@@ -90,7 +117,7 @@
             let value = this.innerHTML.trim();
             let id = this.id;
             
-            console.log(`value : ${value} , button : ${event.button} , classList : ${this.classList}` );
+            console.log(`value : ${value} ,id : ${id}, button : ${event.button} , classList : ${this.classList}` );
             console.log(this.classList.contains("flag"));
             
             switch(event.button){
@@ -100,10 +127,10 @@
                     // display number only when the box is not flagged
                     if (!this.classList.contains("flag")){  
                         valueCheck(value ,id );      // display the cell according to the content
-                        $("#"+this.id).addClass("pressed");
                     }
                     break;
                 case 2:
+                    var mineCount = Number ($(".totalMines").html());
                     console.log("inside 2");
                     flagSound.play();
                     if (this.classList.contains("flag")){      // if box is not already flagged add flag

@@ -10,7 +10,7 @@ body{
   flex-direction: column;
   align-items: center;
 }
-.mineField{
+.mine-field{
   display: block;
   margin-top: auto;
   margin-bottom: auto;
@@ -53,7 +53,7 @@ body{
     background-size: 50px 50px;
     background-color: #F7E987;
   }
-  .mineCell{
+  .mine-cell{
     color: transparent;
     background-color: red;
     background-image: url("../images/mine.png");
@@ -83,4 +83,7 @@ body{
   }
   .pink{
     color:pink;
+  }
+  .game-over{
+    background-color: red;
   }
