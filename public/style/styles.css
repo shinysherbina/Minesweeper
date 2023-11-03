@@ -87,3 +87,6 @@ body{
   .game-over{
     background-color: red;
   }
+  .game-won{
+    background-color: #5B9A8B;
+  }
